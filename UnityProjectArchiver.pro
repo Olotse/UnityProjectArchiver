@@ -9,8 +9,8 @@ SOURCES += \
     projectcopyworker.cpp \
     projectdetailsdialog.cpp \
     projectinfos.cpp \
+    projectjob.cpp \
     projectwindow.cpp \
-    qtprojectinfos.cpp \
     staticutils.cpp
 
 HEADERS += \
@@ -18,6 +18,6 @@ HEADERS += \
     projectcopyworker.h \
     projectdetailsdialog.h \
     projectinfos.h \
+    projectjob.h \
     projectwindow.h \
-    qtprojectinfos.h \
     staticutils.h

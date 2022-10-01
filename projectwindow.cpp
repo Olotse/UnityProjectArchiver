@@ -52,7 +52,7 @@ ProjectWindow::ProjectWindow(QWidget *parent) :
 
 
 	// Avertissement si le répertoire n'est pas vide
-	destinationWarningLabel = new QLabel(tr("Ce répertoire n'est pas un répertoire vide, veuillez vous assurez qu'aucun projet ne sera écrasé par inadvertance"));
+	destinationWarningLabel = new QLabel(tr("L'un des projets est présent dans ce répertoire, si vous lancez la copie maintenant, le projet sera perdu"));
 	destinationWarningLabel->setStyleSheet("color: red");
 	destinationWarningLabel->hide();
 
@@ -103,10 +103,8 @@ void ProjectWindow::getProjectByBrowsingInFiles()
 
 	if(folderPath != "")
 	{
-		QtProjectInfos projectInfos(folderPath);
-
 		// On l'ajoute à la liste des projets
-		o_projectList.append(projectInfos);
+		o_projectList.append(ProjectJob(folderPath));
 
 		// On l'ajoute dans l'affichage des projets
 		o_projectModel->appendRow(o_projectList.last().getStandardItems());
@@ -130,6 +128,8 @@ void ProjectWindow::removeSelectedProjects()
 		// Tri du plus grand au plus petit
 		std::sort(indexes.begin(), indexes.end(), std::greater<int>());
 
+		qDebug() << indexes;
+
 		// On retire chaque item correspondant à l'index dans le modèle
 		foreach(int index, indexes)
 		{
@@ -147,6 +147,7 @@ void ProjectWindow::showProjectDetails(QModelIndex const& index)
 	o_projectModel->setItem(index.row(), 0, o_projectList[index.row()].getProjectNameItem());
 	o_projectModel->setItem(index.row(), 1, o_projectList[index.row()].getProjectSizeItem());
 	o_projectModel->setItem(index.row(), 2, o_projectList[index.row()].getProjectPathItem());
+	o_projectModel->setItem(index.row(), 3, o_projectList[index.row()].getProjectCopyItem());
 }
 
 void ProjectWindow::getDestinationByBrowsingInFiles()
@@ -156,17 +157,22 @@ void ProjectWindow::getDestinationByBrowsingInFiles()
 
 	if(folderPath != "")
 	{
-		QtProjectInfos::setDestinationPath(folderPath.toStdString());
+		destinationWarningLabel->hide();
+
+		QDir destinationDir(folderPath);
+		QStringList entries = destinationDir.entryList();
+
+		for(int i = 0; i < o_projectList.count(); i++)
+			if(entries.contains(o_projectList[i].getProjectName()))
+			{
+				destinationWarningLabel->show();
+				break;
+			}
+
+		ProjectJob::setDestinationPath(folderPath);
 		destinationPathLineEdit->setText(folderPath);
 
 		copyButton->setEnabled(true);
-
-		QDir dir(folderPath);
-
-		if(dir.entryList().count() > 2)
-			destinationWarningLabel->show();
-		else
-			destinationWarningLabel->hide();
 	}
 }
 
@@ -186,8 +192,16 @@ void ProjectWindow::copyProjectsToDestination()
 
 		copyButton->setText(tr("Arrêter la copie"));
 
-		quitButton->setDisabled(true);
+		addProjectButton->setDisabled(true);
+		delProjectButton->setDisabled(true);
+
 		projectTableView->setDisabled(true);
+
+		destinationPathLineEdit->setDisabled(true);
+		destinationPathButton->setDisabled(true);
+
+		quitButton->setDisabled(true);
+
 
 		currentWindowFlags = windowFlags();
 
@@ -202,8 +216,15 @@ void ProjectWindow::onCopyFinished()
 
 	copyButton->setText(tr("Lancer la copie"));
 
-	quitButton->setEnabled(true);
+	addProjectButton->setEnabled(true);
+	delProjectButton->setEnabled(true);
+
 	projectTableView->setEnabled(true);
+
+	destinationPathLineEdit->setEnabled(true);
+	destinationPathButton->setEnabled(true);
+
+	quitButton->setEnabled(true);
 
 	setWindowFlags(currentWindowFlags);
 	show();

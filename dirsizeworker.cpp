@@ -1,11 +1,10 @@
 #include "dirsizeworker.h"
 
-DirSizeWorker::DirSizeWorker(QString const& dirPath, bool keepLibrary, bool keepLogs, bool keepObj, QObject *parent) :
+DirSizeWorker::DirSizeWorker(QString const& dirPath, const QStringList &dirList, const QStringList &extensionList, QObject *parent) :
 	QThread(parent),
 	dirPath(dirPath),
-	keepLibrary(keepLibrary),
-	keepLogs(keepLogs),
-	keepObj(keepObj)
+	dirList(dirList),
+	extensionList(extensionList)
 {}
 
 void DirSizeWorker::run()
@@ -16,37 +15,31 @@ void DirSizeWorker::run()
 
 void DirSizeWorker::calculateDirSize(const QString &dirPath)
 {
-	QDirIterator iterator(dirPath, QDirIterator::IteratorFlag::Subdirectories);
+	QDirIterator iterator(dirPath, QDir::AllEntries | QDir::Hidden, QDirIterator::IteratorFlag::Subdirectories);
 	totalSize = 0;
+
+	// Répertoire d'origine
+	QString fileRelativePath;
 
 	while(iterator.hasNext())
 	{
-		if(!keepLibrary && iterator.filePath().contains("/Library/"))
+		// Si l'iterator est sur un dossier, on passe
+		if(iterator.fileInfo().isDir())
 		{
-			//qDebug() << "Detected /Library/ in " << iterator.filePath();
 			iterator.next();
-
 			continue;
 		}
-		else if(!keepLogs && iterator.filePath().contains("/Logs/"))
-		{
-			//qDebug() << "Detected /Logs/ in " << iterator.filePath();
-			iterator.next();
 
-			continue;
-		}
-		else if(!keepObj && iterator.filePath().contains("/obj/"))
-		{
-			//qDebug() << "Detected /obj/ in " << iterator.filePath();
-			iterator.next();
+		fileRelativePath = iterator.fileInfo().filePath().remove(dirPath + "/");
+		QFileInfo fileInfo(fileRelativePath);
 
-			continue;
-		}
-		else if(iterator.filePath().contains("/Temp/"))
-		{
-			//qDebug() << "Detected /Temp/ in " << iterator.filePath();
-			iterator.next();
+		qsizetype index = fileRelativePath.indexOf("/");
+		QString dirname = fileInfo.path().remove(index, fileInfo.path().length() - index);
 
+		// Si le répertoire ou l'extension du fichier n'est pas à traiter, on passe au fichier suivant
+		if(dirList.contains(dirname) || extensionList.contains(fileInfo.suffix()))
+		{
+			iterator.next();
 			continue;
 		}
 

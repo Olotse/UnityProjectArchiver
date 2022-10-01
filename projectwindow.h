@@ -20,7 +20,7 @@
 
 #include <QStandardItemModel>
 
-#include "qtprojectinfos.h"
+#include "projectjob.h"
 #include "staticutils.h"
 
 #include "projectdetailsdialog.h"
@@ -59,7 +59,7 @@ private:
 	bool o_keepLogs;
 	bool o_keepObj;
 
-	QList<QtProjectInfos> o_projectList;
+	QList<ProjectJob> o_projectList;
 	QStandardItemModel *o_projectModel;
 
 	ProjectCopyWorker *projectCopyWorker;

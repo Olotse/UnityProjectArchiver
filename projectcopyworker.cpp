@@ -1,6 +1,6 @@
 #include "projectcopyworker.h"
 
-ProjectCopyWorker::ProjectCopyWorker(QList<QtProjectInfos> &projects, QObject *parent) :
+ProjectCopyWorker::ProjectCopyWorker(QList<ProjectJob> &projects, QObject *parent) :
 	QThread(parent),
 	projects(projects),
 	interrupt(false)
@@ -16,9 +16,9 @@ void ProjectCopyWorker::run()
 			break;
 		}
 
-		connect(this, &ProjectCopyWorker::interruptCopy, &projects[i], &QtProjectInfos::stopCopyProcess);
+		connect(this, &ProjectCopyWorker::interruptCopy, &projects[i], &ProjectJob::stopCopyProcess);
 		projects[i].proceedToCopy();
-		disconnect(this, &ProjectCopyWorker::interruptCopy, &projects[i], &QtProjectInfos::stopCopyProcess);
+		disconnect(this, &ProjectCopyWorker::interruptCopy, &projects[i], &ProjectJob::stopCopyProcess);
 	}
 }
 

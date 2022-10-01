@@ -11,7 +11,7 @@ class DirSizeWorker : public QThread
 	Q_OBJECT
 
 public:
-	explicit DirSizeWorker(QString const& dirPath, bool keepLibrary = false, bool keepLogs = false, bool keepObj = false, QObject *parent = nullptr);
+	explicit DirSizeWorker(QString const& dirPath, QStringList const& dirList, QStringList const& extensionList, QObject *parent = nullptr);
 	virtual void run() override;
 
 protected:
@@ -22,12 +22,10 @@ Q_SIGNALS:
 
 private:
 	QString dirPath;
-
-	bool keepLibrary;
-	bool keepLogs;
-	bool keepObj;
-
 	qint64 totalSize;
+
+	QStringList dirList;
+	QStringList extensionList;
 };
 
 #endif // DIRSIZEWORKER_H

@@ -15,7 +15,7 @@
 
 #include <QDir>
 
-#include "qtprojectinfos.h"
+#include "projectjob.h"
 #include "staticutils.h"
 
 class ProjectDetailsDialog : public QDialog
@@ -23,7 +23,7 @@ class ProjectDetailsDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit ProjectDetailsDialog(QtProjectInfos& projectInfos, QWidget *parent = nullptr);
+	explicit ProjectDetailsDialog(ProjectJob& project, QWidget *parent = nullptr);
 	virtual ~ProjectDetailsDialog();
 
 Q_SIGNALS:
@@ -34,13 +34,16 @@ private Q_SLOTS:
 	virtual void setKeepLibrary(int state);
 	virtual void setKeepLogs(int state);
 	virtual void setKeepObj(int state);
+	virtual void setKeepVS(int state);
+	virtual void setKeepGit(int state);
+	virtual void setKeepMeta(int state);
 
 	virtual void validAndCloseDialog();
 	virtual void resetAndCloseDialog();
 
 private:
-	QtProjectInfos a_projectInfos;
-	QtProjectInfos& o_projectInfos;
+	ProjectJob a_project;
+	ProjectJob& o_project;
 
 	QVBoxLayout *lt_main;
 		QFormLayout *lt_details;
@@ -51,6 +54,11 @@ private:
 				QCheckBox *keepLibraryCheckBox;
 				QCheckBox *keepLogsCheckbox;
 				QCheckBox *keepObjCheckBox;
+				QCheckBox *keepVSCheckBox;
+				QCheckBox *keepGitCheckBox;
+			QHBoxLayout *lt_optionalExtensions;
+				QCheckBox *keepCSProjCheckBox;
+				QCheckBox *keepMetaCheckBox;
 		QHBoxLayout *lt_buttons;
 			QPushButton *validButton;
 			QPushButton *resetButton;

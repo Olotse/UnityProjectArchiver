@@ -53,18 +53,20 @@ void StaticUtils::copyToClipboard(QString text)
 
 QString const StaticUtils::HumanizedSize(qint64 byteCount, QString const& nullText)
 {
-	QString size = "";
+	QString bUnit[] = { "B", "KiB", "MiB", "GiB" };
+	QString oUnit[] = { "o", "Ko", "Mo", "Go" };
 
-	if(byteCount > qPow(qint64(2), qint64(30)))
-		size = QString::number(round(byteCount / qPow(qint64(2), qint64(30)))) + " GiB (" + QString::number(round(byteCount / qPow(qint64(10), qint64(9)))) + " Go)";
-	else if(byteCount > qPow(qint64(2), qint64(20)))
-		size = QString::number(round(byteCount / qPow(qint64(2), qint64(20)))) + " MiB (" + QString::number(round(byteCount / qPow(qint64(10), qint64(6)))) + " Mo)";
-	else if(byteCount > qPow(qint64(2), qint64(10)))
-		size = QString::number(round(byteCount / qPow(qint64(2), qint64(10)))) + " KiB (" + QString::number(round(byteCount / qPow(qint64(10), qint64(3)))) + " Ko)";
-	else if(byteCount > 0)
-		size = QString::number(byteCount) + " B";
-	else
-		size = nullText;
+	for(int i = 3; i > 0; i--)
+	{
+		if(i > 0)
+		{
+			double bresult = round(byteCount /qPow(2, i*10) * 100) / 100;
+			double oresult = round((byteCount / qPow(10, i*3)) * 100) / 100;
 
-	return size;
+			if(byteCount > qPow(2, i*10))
+				return QString::number(bresult) + " " + bUnit[i] + " (" + QString::number(oresult) + " " + oUnit[i] + ")";
+		}
+	}
+
+	return nullText;
 }

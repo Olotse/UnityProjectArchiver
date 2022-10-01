@@ -3,14 +3,14 @@
 
 #include <QThread>
 
-#include "qtprojectinfos.h"
+#include "projectjob.h"
 
 class ProjectCopyWorker : public QThread
 {
 	Q_OBJECT
 
 public:
-	explicit ProjectCopyWorker(QList<QtProjectInfos> &projects, QObject *parent = nullptr);
+	explicit ProjectCopyWorker(QList<ProjectJob> &projects, QObject *parent = nullptr);
 
 	virtual void run() override;
 	virtual void stopCopyProcess();
@@ -19,7 +19,7 @@ Q_SIGNALS:
 	void interruptCopy();
 
 private:
-	QList<QtProjectInfos> &projects;
+	QList<ProjectJob> &projects;
 	bool interrupt;
 };
 
