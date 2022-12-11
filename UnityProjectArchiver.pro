@@ -21,3 +21,6 @@ HEADERS += \
     projectjob.h \
     projectwindow.h \
     staticutils.h
+
+win32:RC_FILE += \
+    icon.rc
