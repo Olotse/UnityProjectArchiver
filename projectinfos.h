@@ -9,7 +9,7 @@ class ProjectInfos
 {
 public:
 	// Constructeurs
-	explicit ProjectInfos(string const& projectPath, bool keepLibrary = false, bool keepLogs = false, bool keepObj = false, bool keepVS = false, bool keepMeta = false, bool keepGit = true);
+	explicit ProjectInfos(string const& projectPath, bool keepLibrary = false, bool keepLogs = false, bool keepObj = false, bool keepVS = false, bool keepMeta = true, bool keepGit = true);
 	ProjectInfos(ProjectInfos const& projectInfos);
 
 	// Chemin du répertoire de destination de la copie
