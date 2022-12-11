@@ -21,7 +21,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile=D:\Users\Anton\Workspaces\Qt\build-UnityProjectArchiver-Desktop_Qt_6_3_1_MinGW_64_bit-Release\release\LICENSE
+LicenseFile=D:\Users\Anton\Workspaces\Qt\UnityProjectArchiver\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
@@ -47,6 +47,7 @@ Source: "D:\Users\Anton\Workspaces\Qt\build-UnityProjectArchiver-Desktop_Qt_6_3_
 Source: "D:\Users\Anton\Workspaces\Qt\build-UnityProjectArchiver-Desktop_Qt_6_3_1_MinGW_64_bit-Release\release\Qt6Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Users\Anton\Workspaces\Qt\build-UnityProjectArchiver-Desktop_Qt_6_3_1_MinGW_64_bit-Release\release\styles\qwindowsvistastyle.dll"; DestDir: "{app}\styles"; Flags: ignoreversion
 Source: "D:\Users\Anton\Workspaces\Qt\build-UnityProjectArchiver-Desktop_Qt_6_3_1_MinGW_64_bit-Release\release\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Flags: ignoreversion
+Source: "D:\Users\Anton\Workspaces\Qt\build-UnityProjectArchiver-Desktop_Qt_6_3_1_MinGW_64_bit-Release\release\imageformats\qico.dll"; DestDir: "{app}\imageformats"; Flags: ignoreversion
 Source: "D:\Users\Anton\Workspaces\Qt\build-UnityProjectArchiver-Desktop_Qt_6_3_1_MinGW_64_bit-Release\release\icon.ico"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
