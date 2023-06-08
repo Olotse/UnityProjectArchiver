@@ -31,12 +31,19 @@ Q_SIGNALS:
 private Q_SLOTS:
 	virtual void browseProjectPath();
 
+	virtual void setKeepApk(int state);
+	virtual void setKeepBuild(int state);
+	virtual void setKeepExe(int state);
+
 	virtual void setKeepLibrary(int state);
 	virtual void setKeepLogs(int state);
 	virtual void setKeepObj(int state);
-	virtual void setKeepVS(int state);
+
 	virtual void setKeepGit(int state);
-	virtual void setKeepMeta(int state);
+	virtual void setKeepPlastic(int state);
+
+	virtual void setKeepVSDir(int state);
+	virtual void setKeepVSFiles(int state);
 
 	virtual void validAndCloseDialog();
 	virtual void resetAndCloseDialog();
@@ -47,18 +54,33 @@ private:
 
 	QVBoxLayout *lt_main;
 		QFormLayout *lt_details;
+			// Project path
 			QHBoxLayout *lt_projectPath;
 				QLineEdit *projectPathLineEdit;
 				QPushButton *projectPathButton;
-			QHBoxLayout *lt_optionalDirs;
+
+			// Builds dirs
+			QHBoxLayout *lt_buildDirs;
+				QCheckBox *keepApkCheckBox;
+				QCheckBox *keepBuildCheckbox;
+				QCheckBox *keepExeCheckBox;
+
+			// Unity cache and logs dirs
+			QHBoxLayout *lt_cacheDirs;
 				QCheckBox *keepLibraryCheckBox;
 				QCheckBox *keepLogsCheckbox;
 				QCheckBox *keepObjCheckBox;
-				QCheckBox *keepVSCheckBox;
+
+			// Versioning dirs
+			QHBoxLayout *lt_versioningDirs;
 				QCheckBox *keepGitCheckBox;
-			QHBoxLayout *lt_optionalExtensions;
-				QCheckBox *keepCSProjCheckBox;
-				QCheckBox *keepMetaCheckBox;
+				QCheckBox *keepPlasticCheckBox;
+
+			// Visual studio dirs
+			QHBoxLayout *lt_vsDirs;
+				QCheckBox *keepVSDirCheckBox;
+				QCheckBox *keepVSFilesCheckBox;
+
 		QHBoxLayout *lt_buttons;
 			QPushButton *validButton;
 			QPushButton *resetButton;
