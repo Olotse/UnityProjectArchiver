@@ -3,13 +3,15 @@
 
 #include <string>
 
+#include <QtDebug>
+
 using namespace std;
 
 class ProjectInfos
 {
 public:
 	// Constructeurs
-	explicit ProjectInfos(string const& projectPath, bool keepLibrary = false, bool keepLogs = false, bool keepObj = false, bool keepVS = false, bool keepMeta = true, bool keepGit = true);
+	explicit ProjectInfos(string const& projectPath, bool keepApk = true, bool keepBuild = true, bool keepExe = true, bool keepLibrary = false, bool keepLogs = false, bool keepObj = false, bool keepGit = true, bool keepPlastic = true, bool keepVSDir = false, bool keepVSFiles = false);
 	ProjectInfos(ProjectInfos const& projectInfos);
 
 	// Chemin du répertoire de destination de la copie
@@ -24,6 +26,20 @@ public:
 	virtual string const& getProjectName() const;
 	virtual string const& getParentFolderPath() const;
 
+
+	// Répertoire Apk[s]
+	virtual bool isKeepingApk() const;
+	virtual void hasToKeepApk(bool keep);
+
+	// Répertoire Build[s]
+	virtual bool isKeepingBuild() const;
+	virtual void hasToKeepBuild(bool keep);
+
+	// Répertoire Exe[s]
+	virtual bool isKeepingExe() const;
+	virtual void hasToKeepExe(bool keep);
+
+
 	// Répertoire Library
 	virtual bool isKeepingLibrary() const;
 	virtual void hasToKeepLibrary(bool keep);
@@ -36,17 +52,24 @@ public:
 	virtual bool isKeepingObj() const;
 	virtual void hasToKeepObj(bool keep);
 
-	// Répertoire .vs et fichiers .csproj
-	virtual bool isKeepingVisualStudio() const;
-	virtual void hasToKeepVisualStudio(bool keep);
-
-	// Fichiers .meta
-	virtual bool isKeepingMetaFiles() const;
-	virtual void hasToKeepMetaFiles(bool keep);
 
 	// Répertoire .git
 	virtual bool isKeepingGit() const;
 	virtual void hasToKeepGit(bool keep);
+
+	// Répertoire .plastic
+	virtual bool isKeepingPlastic() const;
+	virtual void hasToKeepPlastic(bool keep);
+
+
+	// Répertoire .vs
+	virtual bool isKeepingVSDir() const;
+	virtual void hasToKeepVSDir(bool keep);
+
+	// Fichiers .csproj, .vsconfig et .sln
+	virtual bool isKeepingVSFiles() const;
+	virtual void hasToKeepVSFiles(bool keep);
+
 
 	virtual ProjectInfos& operator=(ProjectInfos const& projectInfos);
 
@@ -61,13 +84,19 @@ private:
 
 	string parentFolderPath;
 
+	bool keepApk;
+	bool keepBuild;
+	bool keepExe;
+
 	bool keepLibrary;
 	bool keepLogs;
 	bool keepObj;
 
-	bool keepVS;
-	bool keepMeta;
 	bool keepGit;
+	bool keepPlastic;
+
+	bool keepVSDir;
+	bool keepVSFiles;
 };
 
 #endif // PROJECTINFOS_H

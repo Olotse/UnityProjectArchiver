@@ -2,16 +2,22 @@
 
 string ProjectInfos::DestinationPath = "";
 
-ProjectInfos::ProjectInfos(string const& projectPath, bool keepLibrary, bool keepLogs, bool keepObj, bool keepVS, bool keepMeta, bool keepGit) :
+ProjectInfos::ProjectInfos(string const& projectPath, bool keepApk, bool keepBuild, bool keepExe, bool keepLibrary, bool keepLogs, bool keepObj, bool keepGit, bool keepPlastic, bool keepVSDir, bool keepVSFiles) :
 	projectPath(projectPath),
+
+	keepApk(keepApk),
+	keepBuild(keepBuild),
+	keepExe(keepExe),
 
 	keepLibrary(keepLibrary),
 	keepLogs(keepLogs),
 	keepObj(keepObj),
 
-	keepVS(keepVS),
-	keepMeta(keepMeta),
-	keepGit(keepGit)
+	keepGit(keepGit),
+	keepPlastic(keepPlastic),
+
+	keepVSDir(keepVSDir),
+	keepVSFiles(keepVSFiles)
 {
 	// Source https://cplusplus.com/reference/string/string/find_last_of/
 	size_t index = projectPath.find_last_of("/\\");
@@ -21,7 +27,7 @@ ProjectInfos::ProjectInfos(string const& projectPath, bool keepLibrary, bool kee
 }
 
 ProjectInfos::ProjectInfos(ProjectInfos const& projectInfos) :
-	ProjectInfos(projectInfos.projectPath, projectInfos.keepLibrary, projectInfos.keepLogs, projectInfos.keepObj)
+	ProjectInfos(projectInfos.projectPath, projectInfos.keepApk, projectInfos.keepBuild, projectInfos.keepExe, projectInfos.keepLibrary, projectInfos.keepLogs, projectInfos.keepObj, projectInfos.keepGit, projectInfos.keepPlastic, projectInfos.keepVSDir, projectInfos.keepVSFiles)
 {}
 
 
@@ -54,6 +60,27 @@ string const& ProjectInfos::getParentFolderPath() const
 { return parentFolderPath; }
 
 
+bool ProjectInfos::isKeepingApk() const
+{ return keepApk; }
+
+void ProjectInfos::hasToKeepApk(bool keep)
+{ keepApk = keep; }
+
+
+bool ProjectInfos::isKeepingBuild() const
+{ return keepBuild; }
+
+void ProjectInfos::hasToKeepBuild(bool keep)
+{ keepBuild = keep; }
+
+
+bool ProjectInfos::isKeepingExe() const
+{ return keepExe; }
+
+void ProjectInfos::hasToKeepExe(bool keep)
+{ keepExe = keep; }
+
+
 bool ProjectInfos::isKeepingLibrary() const
 { return keepLibrary; }
 
@@ -75,25 +102,32 @@ void ProjectInfos::hasToKeepObj(bool keep)
 { keepObj = keep; }
 
 
-bool ProjectInfos::isKeepingVisualStudio() const
-{ return keepVS; }
-
-void ProjectInfos::hasToKeepVisualStudio(bool keep)
-{ keepVS = keep; }
-
-
-bool ProjectInfos::isKeepingMetaFiles() const
-{ return keepMeta; }
-
-void ProjectInfos::hasToKeepMetaFiles(bool keep)
-{ keepMeta = keep; }
-
-
 bool ProjectInfos::isKeepingGit() const
 { return keepGit; }
 
 void ProjectInfos::hasToKeepGit(bool keep)
 { keepGit = keep; }
+
+
+bool ProjectInfos::isKeepingPlastic() const
+{ return keepPlastic; }
+
+void ProjectInfos::hasToKeepPlastic(bool keep)
+{ keepPlastic = keep; }
+
+
+bool ProjectInfos::isKeepingVSDir() const
+{ return keepVSDir; }
+
+void ProjectInfos::hasToKeepVSDir(bool keep)
+{ keepVSDir = keep; }
+
+
+bool ProjectInfos::isKeepingVSFiles() const
+{ return keepVSFiles; }
+
+void ProjectInfos::hasToKeepVSFiles(bool keep)
+{ keepVSFiles = keep; }
 
 
 ProjectInfos& ProjectInfos::operator=(const ProjectInfos &projectInfos)
@@ -106,13 +140,19 @@ ProjectInfos& ProjectInfos::operator=(const ProjectInfos &projectInfos)
 
 	parentFolderPath = projectInfos.parentFolderPath;
 
+	keepApk = projectInfos.keepApk;
+	keepBuild = projectInfos.keepBuild;
+	keepExe = projectInfos.keepExe;
+
 	keepLibrary = projectInfos.keepLibrary;
 	keepLogs = projectInfos.keepLogs;
 	keepObj = projectInfos.keepObj;
 
-	keepVS = projectInfos.keepVS;
-	keepMeta = projectInfos.keepMeta;
 	keepGit = projectInfos.keepGit;
+	keepPlastic = projectInfos.keepPlastic;
+
+	keepVSDir = projectInfos.keepVSDir;
+	keepVSFiles = projectInfos.keepVSFiles;
 
 	return *this;
 }
