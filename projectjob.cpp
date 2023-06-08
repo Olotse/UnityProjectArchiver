@@ -19,7 +19,6 @@ ProjectJob::ProjectJob(QString const& projectDirPath, QObject *parent) :
 	interruptCopy(false)
 {}
 
-
 ProjectJob::ProjectJob(ProjectJob const& projectJob) :
 	ProjectJob(projectJob.getProjectPath())
 {
@@ -34,6 +33,8 @@ ProjectJob::ProjectJob(ProjectJob const& projectJob) :
 
 	if(projectJob.projectCopyItem != nullptr)
 		this->projectCopyItem = new QStandardItem(tr("En attente"));
+
+	projectInfos = projectJob.projectInfos;
 }
 
 QString ProjectJob::getDestinationPath()
@@ -56,6 +57,16 @@ QStringList ProjectJob::getUnkeepedDirNames() const
 {
 	QStringList dirs;
 
+	if(!projectInfos.isKeepingApk())
+		dirs << "Apk" << "Apks" << "APK" << "APKS" << "APKs";
+
+	if(!projectInfos.isKeepingBuild())
+		dirs << "Build" << "Builds" << "BUILD" << "BUILDS" << "BUILDs";
+
+	if(!projectInfos.isKeepingExe())
+		dirs << "Exe" << "Exes" << "EXE" << "EXES" << "EXEs";
+
+
 	if(!projectInfos.isKeepingLibrary())
 		dirs << "Library";
 
@@ -65,11 +76,16 @@ QStringList ProjectJob::getUnkeepedDirNames() const
 	if(!projectInfos.isKeepingObj())
 		dirs << "obj";
 
-	if(!projectInfos.isKeepingVisualStudio())
-		dirs << ".vs";
 
 	if(!projectInfos.isKeepingGit())
 		dirs << ".git";
+
+	if(!projectInfos.isKeepingPlastic())
+		dirs << ".plastic";
+
+
+	if(!projectInfos.isKeepingVSDir())
+		dirs << ".vs";
 
 	dirs << "Temp";
 
@@ -80,11 +96,8 @@ QStringList ProjectJob::getUnkeepedFileExtensions() const
 {
 	QStringList extensions;
 
-	if(!projectInfos.isKeepingVisualStudio())
+	if(!projectInfos.isKeepingVSFiles())
 		extensions << "csproj" << "vsconfig" << "sln";
-
-	if(!projectInfos.isKeepingMetaFiles())
-		extensions << "meta";
 
 	return extensions;
 }
@@ -316,6 +329,45 @@ void ProjectJob::updateProjectSize(qint64 const& byteCount)
 }
 
 
+bool ProjectJob::isKeepingApk() const
+{ return projectInfos.isKeepingApk(); }
+
+void ProjectJob::hasToKeepApk(bool keep)
+{
+	if(keep != projectInfos.isKeepingApk())
+	{
+		projectInfos.hasToKeepApk(keep);
+		needToCalculateProjectSize = true;
+	}
+}
+
+
+bool ProjectJob::isKeepingBuild() const
+{ return projectInfos.isKeepingBuild(); }
+
+void ProjectJob::hasToKeepBuild(bool keep)
+{
+	if(keep != projectInfos.isKeepingBuild())
+	{
+		projectInfos.hasToKeepBuild(keep);
+		needToCalculateProjectSize = true;
+	}
+}
+
+
+bool ProjectJob::isKeepingExe() const
+{ return projectInfos.isKeepingExe(); }
+
+void ProjectJob::hasToKeepExe(bool keep)
+{
+	if(keep != projectInfos.isKeepingExe())
+	{
+		projectInfos.hasToKeepExe(keep);
+		needToCalculateProjectSize = true;
+	}
+}
+
+
 bool ProjectJob::isKeepingLibrary() const
 { return projectInfos.isKeepingLibrary(); }
 
@@ -355,32 +407,6 @@ void ProjectJob::hasToKeepObj(bool keep)
 }
 
 
-bool ProjectJob::isKeepingVisualStudio() const
-{ return projectInfos.isKeepingVisualStudio(); }
-
-void ProjectJob::hasToKeepVisualStudio(bool keep)
-{
-	if(keep != projectInfos.isKeepingVisualStudio())
-	{
-		projectInfos.hasToKeepVisualStudio(keep);
-		needToCalculateProjectSize = true;
-	}
-}
-
-
-bool ProjectJob::isKeepingMetaFiles() const
-{ return projectInfos.isKeepingMetaFiles(); }
-
-void ProjectJob::hasToKeepMetaFiles(bool keep)
-{
-	if(keep != projectInfos.isKeepingMetaFiles())
-	{
-		projectInfos.hasToKeepMetaFiles(keep);
-		needToCalculateProjectSize = true;
-	}
-}
-
-
 bool ProjectJob::isKeepingGit() const
 { return projectInfos.isKeepingGit(); }
 
@@ -389,6 +415,45 @@ void ProjectJob::hasToKeepGit(bool keep)
 	if(keep != projectInfos.isKeepingGit())
 	{
 		projectInfos.hasToKeepGit(keep);
+		needToCalculateProjectSize = true;
+	}
+}
+
+
+bool ProjectJob::isKeepingPlastic() const
+{ return projectInfos.isKeepingPlastic(); }
+
+void ProjectJob::hasToKeepPlastic(bool keep)
+{
+	if(keep != projectInfos.isKeepingPlastic())
+	{
+		projectInfos.hasToKeepPlastic(keep);
+		needToCalculateProjectSize = true;
+	}
+}
+
+
+bool ProjectJob::isKeepingVSDir() const
+{ return projectInfos.isKeepingVSDir(); }
+
+void ProjectJob::hasToKeepVSDir(bool keep)
+{
+	if(keep != projectInfos.isKeepingVSDir())
+	{
+		projectInfos.hasToKeepVSDir(keep);
+		needToCalculateProjectSize = true;
+	}
+}
+
+
+bool ProjectJob::isKeepingVSFiles() const
+{ return projectInfos.isKeepingVSFiles(); }
+
+void ProjectJob::hasToKeepVSFiles(bool keep)
+{
+	if(keep != projectInfos.isKeepingVSFiles())
+	{
+		projectInfos.hasToKeepVSFiles(keep);
 		needToCalculateProjectSize = true;
 	}
 }

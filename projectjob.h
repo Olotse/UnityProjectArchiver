@@ -45,6 +45,18 @@ public:
 	virtual qint64 const& getProjectSize() const;
 	virtual void setProjectPath(QString const& projectPath);
 
+	// Répertoire Apk[s]
+	virtual bool isKeepingApk() const;
+	virtual void hasToKeepApk(bool keep);
+
+	// Répertoire Build[s]
+	virtual bool isKeepingBuild() const;
+	virtual void hasToKeepBuild(bool keep);
+
+	// Répertoire Exe[s]
+	virtual bool isKeepingExe() const;
+	virtual void hasToKeepExe(bool keep);
+
 	// Répertoire Library
 	virtual bool isKeepingLibrary() const;
 	virtual void hasToKeepLibrary(bool keep);
@@ -57,17 +69,21 @@ public:
 	virtual bool isKeepingObj() const;
 	virtual void hasToKeepObj(bool keep);
 
-	// Répertoire .vs et fichiers .csproj
-	virtual bool isKeepingVisualStudio() const;
-	virtual void hasToKeepVisualStudio(bool keep);
-
-	// Fichiers .meta
-	virtual bool isKeepingMetaFiles() const;
-	virtual void hasToKeepMetaFiles(bool keep);
-
 	// Répertoire .git
 	virtual bool isKeepingGit() const;
 	virtual void hasToKeepGit(bool keep);
+
+	// Répertoire .plastic
+	virtual bool isKeepingPlastic() const;
+	virtual void hasToKeepPlastic(bool keep);
+
+	// Fichiers .csproj
+	virtual bool isKeepingVSDir() const;
+	virtual void hasToKeepVSDir(bool keep);
+
+	// Répertoire .vs
+	virtual bool isKeepingVSFiles() const;
+	virtual void hasToKeepVSFiles(bool keep);
 
 	virtual ProjectJob& operator=(ProjectJob const& projectJob);
 
