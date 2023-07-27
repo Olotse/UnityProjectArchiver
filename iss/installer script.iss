@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Unity Project Archiver"
-#define MyAppVersion "20230608-2248"
+#define MyAppVersion "20230727-2345"
 #define MyAppPublisher "Dev'loader"
 #define MyAppURL "https://www.devloader.fr"
 #define MyAppExeName "UnityProjectArchiver.exe"
