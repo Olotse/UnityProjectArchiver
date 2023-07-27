@@ -63,7 +63,7 @@ ProjectDetailsDialog::ProjectDetailsDialog(ProjectJob& project, QWidget *parent)
 	keepVSFilesCheckBox->setChecked(o_project.isKeepingVSFiles());
 
 	lt_vsDirs = new QHBoxLayout();
-	lt_vsDirs->addWidget(keepGitCheckBox);
+	lt_vsDirs->addWidget(keepVSDirCheckBox);
 	lt_vsDirs->addWidget(keepVSFilesCheckBox);
 
 
